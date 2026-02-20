@@ -1207,7 +1207,7 @@ class SaleOrder(models.Model):
         Note: self can contain multiple records.
 
         :return: Sales Order confirmation values
-        :rtype: dict
+        :rtype: dict 
         """
         return {
             'state': 'sale',

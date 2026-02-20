@@ -278,8 +278,7 @@
                     data-hotkey="q"
                     invisible="invoice_status != 'to invoice'"/>
                 <button
-                    string="Create Invoice"
-                    id="create_invoice_percentage"
+                    string="Create Invoice" id="create_invoice_percentage"
                     name="%(sale.action_view_sale_advance_payment_inv)d"
                     type="action"
                     context="{'default_advance_payment_method': 'percentage'}"
@@ -324,11 +323,13 @@
                     type="object"
                     context="{'validate_analytic': True}"
                     data-hotkey="q"
+                    class="btn-danger"
                     invisible="state != 'draft'"/>
                 <button
                     string="Send PRO-FORMA Invoice"
                     id="send_proforma"
                     name="action_quotation_send"
+                    class="btn-warning"
                     type="object"
                     context="{'proforma': True, 'validate_analytic': True}"
                     invisible="state == 'draft' or invoice_count &gt;= 1"

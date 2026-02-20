@@ -210,9 +210,9 @@ class SaleOrder(models.Model):
             })
             order.show_json_popover = bool(late_stock_picking)
 
-    def _action_confirm(self):
+    def _action_confirm(self): 
         self.order_line._action_launch_stock_rule()
-        return super(SaleOrder, self)._action_confirm()
+        return super(SaleOrder, self)._action_confirm() 
 
     @api.depends('picking_ids')
     def _compute_picking_ids(self):

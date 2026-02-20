@@ -49,7 +49,7 @@ class AccountMove(models.Model):
             move.sale_order_count = len(move.line_ids.sale_line_ids.order_id)
 
     @api.depends('partner_id.name', 'partner_id.sale_warn_msg', 'invoice_line_ids.product_id.sale_line_warn_msg', 'invoice_line_ids.product_id.display_name')
-    def _compute_sale_warning_text(self):
+    def _compute_sale_warning_text(self): 
         if not self.env.user.has_group('sale.group_warning_sale'):
             self.sale_warning_text = ''
             return

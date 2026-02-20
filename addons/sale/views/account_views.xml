@@ -25,7 +25,7 @@
             </field>
         </field>
     </record>
-
+ 
     <record model="ir.ui.view" id="account_invoice_form">
         <field name="name">Account Invoice</field>
         <field name="model">account.move</field>

@@ -40,7 +40,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         compute='_compute_currency_id',
-        store=True)
+        store=True) 
     company_id = fields.Many2one(
         comodel_name='res.company',
         compute='_compute_company_id',

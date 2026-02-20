@@ -698,7 +698,7 @@
             <field name="arch" type="xml">
                 <form string="Account Entry" js_class="account_move_form">
                     <header>
-                        <!-- Post -->
+                        <!-- Post --> 
                         <button name="action_post" string="Post" class="oe_highlight"
                                 type="object" groups="account.group_account_invoice" data-hotkey="q"
                                 context="{'validate_analytic': True, 'disable_abnormal_invoice_detection': False}"
