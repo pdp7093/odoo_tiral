@@ -9,7 +9,7 @@ from odoo.tools import float_compare, float_is_zero, format_date, groupby
 from odoo.tools.translate import _
 
 
-class SaleOrderLine(models.Model):
+class SaleOrderLine(models.Model): 
     _name = 'sale.order.line'
     _inherit = ['analytic.mixin']
     _description = "Sales Order Line"

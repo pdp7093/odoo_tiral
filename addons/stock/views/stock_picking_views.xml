@@ -209,12 +209,12 @@
                         <h1 class="d-flex">
                             <field name="priority" widget="priority" class="me-3"/>
                             <div invisible="id">New <field name="picking_type_code"/></div>
-                            <field name="name" invisible="not id"/>
+                            <field name="name" invisible="not id" />
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <div class="o_td_label">
+                            <div class="o_td_label ">
                                 <label for="partner_id" string="Delivery Address" style="font-weight:bold;"
                                        invisible="picking_type_code != 'outgoing'"/>
                                 <label for="partner_id" string="Receive From" style="font-weight:bold;"
@@ -293,7 +293,7 @@
                                     <field name="description_picking" string="Description" optional="show"/>
                                     <field name="date" optional="hide"/>
                                     <field name="date_deadline" optional="hide"/>
-                                    <field name="is_quantity_done_editable" column_invisible="True"/>
+                                    <field name="is_quantity_done_editable" optional="hide"/>
                                     <field name="show_quant" column_invisible="True"/>
                                     <field name="show_lots_text" column_invisible="True"/>
                                     <field name="show_lots_m2o" column_invisible="True"/>

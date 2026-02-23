@@ -1783,7 +1783,7 @@ class SaleOrder(models.Model):
         This is needed for the automatic invoice logic, as we want to automatically
         invoice the full SO when it's paid.
         """
-        for line in self.order_line:
+        for line in self.order_line: 
             if line.state == 'sale':
                 # No need to set 0 as it is already the standard logic in the compute method.
                 line.qty_to_invoice = line.product_uom_qty - line.qty_invoiced

@@ -6,15 +6,14 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <button name="action_view_invoice" position="before">
+            <button name="action_view_invoice" position="after">
                 <button
                     name="action_view_delivery"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-truck"
                     invisible="delivery_count == 0"
-                    groups="stock.group_stock_user"
-                >
+                    groups="stock.group_stock_user">
                     <field name="delivery_count" widget="statinfo" string="Delivery"/>
                 </button>
             </button>
