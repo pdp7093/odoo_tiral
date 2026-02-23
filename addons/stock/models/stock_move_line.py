@@ -1151,7 +1151,7 @@ class StockMoveLine(models.Model):
             :param picked_first: If enabled, will prioritize picked move lines over other move lines.
             :return: move_lines_to_pack: All move lines without a pack that can be packed
             :return: packages_to_pack: All packages that can be packed
-        """
+        """   
         if len(self.picking_type_id) > 1:
             raise UserError(_('You cannot pack products into the same package when they are from different transfers with different operation types'))
 
