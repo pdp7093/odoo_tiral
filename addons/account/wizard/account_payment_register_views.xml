@@ -54,7 +54,7 @@
                     <div role="alert" invisible="not actionable_errors">
                         <field name="actionable_errors" widget="actionable_errors" class="w-100"/>
                     </div>
-                    <group>
+                    <group>  
                         <group name="group1">
                             <field name="journal_id" options="{'no_open': True, 'no_create': True}" required="1"/>
                             <field name="payment_method_line_id"

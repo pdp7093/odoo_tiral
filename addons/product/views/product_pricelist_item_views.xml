@@ -29,7 +29,7 @@
                     <filter
                         string="Pricelist"
                         name="groupby_vendor"
-                        context="{'group_by': 'pricelist_id'}"
+                        context="{'group_by': 'pricelist_id'}" 
                         groups="product.group_product_pricelist"
                     />
                 </group>
@@ -114,7 +114,7 @@
         <field name="arch" type="xml">
             <form string="Pricelist Rule">
                 <sheet>
-                    <field name="name" invisible="1"/>
+                    <field name="name"/>
                     <field name="company_id" invisible="1"/>
                     <field name="price" invisible="1"/>
                     <group name="pricelist_rule_computation">

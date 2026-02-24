@@ -3,7 +3,7 @@
 
     <record id="view_sale_advance_payment_inv" model="ir.ui.view">
         <field name="name">Invoice Orders</field>
-        <field name="model">sale.advance.payment.inv</field>
+        <field name="model">sale.advance.payment.inv</field> 
         <field name="arch" type="xml">
             <form string="Invoice Sales Order">
                 <field name="display_draft_invoice_warning" invisible="1"/>

@@ -6,7 +6,7 @@ from odoo.fields import Command
 from odoo.tools import formatLang
 
 
-class SaleAdvancePaymentInv(models.TransientModel):
+class SaleAdvancePaymentInv(models.TransientModel): 
     _name = 'sale.advance.payment.inv'
     _description = "Sales Advance Payment Invoice"
 

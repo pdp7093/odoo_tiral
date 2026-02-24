@@ -274,7 +274,7 @@
                     id="create_invoice"
                     name="%(sale.action_view_sale_advance_payment_inv)d"
                     type="action"
-                    class="btn-primary"
+                    class="btn-info"
                     data-hotkey="q"
                     invisible="invoice_status != 'to invoice'"/>
                 <button
@@ -735,12 +735,14 @@
                                     name="price_subtotal"
                                     string="Amount"
                                     column_invisible="parent.company_price_include == 'tax_included'"
-                                    invisible="is_downpayment"/>
+                                    invisible="is_downpayment" 
+                                    class="bg-success" />
                                 <field
                                     name="price_total"
                                     string="Amount"
                                     column_invisible="parent.company_price_include == 'tax_excluded'"
-                                    invisible="is_downpayment"/>
+                                    invisible="is_downpayment" 
+                                    class="bg-danger" />
                                 <!-- Optional amounts columns -->
                                 <field
                                     name="price_total"
@@ -827,7 +829,7 @@
                                 string="Discount"
                                 name="action_open_discount_wizard"
                                 type="object"
-                                class="btn btn-secondary"
+                                class="btn btn-success"
                                 groups="sale.group_discount_per_so_line"
                                 invisible="locked or state == 'cancel'"
                             />
@@ -835,11 +837,11 @@
                                 string="Discounts"
                                 name="action_open_discount_wizard"
                                 type="object"
-                                class="btn btn-secondary"
+                                class="btn btn-success"
                                 groups="sale.group_discount_per_so_line"
                                 disabled="1"
                                 invisible="not (locked or state == 'cancel')"
-                            />
+                            /> 
                         </div>
                         <group name="note_group" col="6" class="mt-2 mt-md-0">
                             <group colspan="4" class="order-1 order-lg-0">

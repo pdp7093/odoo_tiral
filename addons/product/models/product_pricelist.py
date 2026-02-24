@@ -26,7 +26,7 @@ class ProductPricelist(models.Model):
         return self._base_domain_item_ids()
 
     name = fields.Char(string="Pricelist Name", required=True, translate=True)
-
+ 
     active = fields.Boolean(
         string="Active",
         default=True,

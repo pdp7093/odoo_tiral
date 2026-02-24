@@ -16,7 +16,7 @@ class AccountPayment(models.Model):
     move_id = fields.Many2one(
         comodel_name='account.move',
         string='Journal Entry',
-        index=True,
+        index=True,  
         copy=False,
         check_company=True)
     journal_id = fields.Many2one(
