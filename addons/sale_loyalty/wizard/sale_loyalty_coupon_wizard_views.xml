@@ -11,7 +11,7 @@
                             <field name="coupon_code"/>
                         </group>
                     </group>
-                </sheet>
+                </sheet> 
                 <footer>
                     <button type="object" name="action_apply" string="Apply" class="btn btn-primary" data-hotkey="q"/>
                     <button special="cancel" string="Discard" class="btn btn-secondary" data-hotkey="x"/>

@@ -18,12 +18,12 @@
                     <field string="Gift Cards" name="gift_card_count" widget="statinfo"/>
                 </button>
             </div>
-            <button name="action_open_discount_wizard" position="before">
+            <button name="action_open_discount_wizard" position="before"> 
                 <button
                     string="Coupon Code"
                     name="%(sale_loyalty.sale_loyalty_coupon_wizard_action)d"
                     type="action"
-                    class="btn btn-danger"
+                    class="btn btn-danger" 
                     invisible="locked or state == 'cancel'"
                 />
                 <button
@@ -38,7 +38,7 @@
                     string="Reward"
                     name="action_open_reward_wizard"
                     type="object"
-                    class="btn btn-secondary"
+                    class="btn btn-info"
                     help="Update current promotional lines and select new rewards if applicable."
                     invisible="locked or state == 'cancel'"
                 />

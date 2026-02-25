@@ -825,6 +825,7 @@
                         </field>
                         <div class="float-end d-flex d-print-none gap-1 mb-2"
                              name="so_button_below_order_lines">
+                             <!-- Discounts Button -->
                             <button
                                 string="Discount"
                                 name="action_open_discount_wizard"
@@ -833,6 +834,7 @@
                                 groups="sale.group_discount_per_so_line"
                                 invisible="locked or state == 'cancel'"
                             />
+                            
                             <button
                                 string="Discounts"
                                 name="action_open_discount_wizard"

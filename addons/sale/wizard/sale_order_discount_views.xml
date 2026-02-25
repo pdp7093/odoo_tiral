@@ -24,12 +24,12 @@
                             </group>
                         </div>
                         <div class="col-sm-7 col-md-8 col-lg-8 col-8">
-                            <field name="discount_type" widget="radio"/>
+                            <field name="discount_type" widget="radio"/> 
                         </div>
                     </div>
                 </sheet>
                 <footer>
-                    <button type="object" string="Apply" name="action_apply_discount" class="btn btn-primary" data-hotkey="q"/>
+                    <button type="object" string="Apply" name="action_apply_discount" class="btn btn-primary border-3" data-hotkey="q"/>
                     <button special="cancel" string="Discard" class="btn btn-secondary" data-hotkey="x"/>
                 </footer>
             </form>

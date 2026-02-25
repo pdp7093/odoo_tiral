@@ -31,7 +31,7 @@ class SaleOrderLine(models.Model):
     def _compute_tax_ids(self):
         reward_lines = self.filtered('is_reward_line')
         super(SaleOrderLine, self - reward_lines)._compute_tax_ids()
-        # Discount reward line is split per tax, the discount is set on the line but not on the product
+        # Discount reward lin_get_display_pricee is split per tax, the discount is set on the line but not on the product
         # as the product is the generic discount line.
         # In case of a free product, retrieving the tax on the line instead of the product won't affect the behavior.
         for line in reward_lines:
@@ -58,7 +58,7 @@ class SaleOrderLine(models.Model):
         """
         Reset the line(s) to a state which does not impact reward computation.
         If complete is set to True we also remove the coupon and reward from the line(s).
-            This option should be used when the line will be unlinked.
+           _compute_name This option should be used when the line will be unlinked.
 
         Returns self
         """

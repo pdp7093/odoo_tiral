@@ -4,7 +4,7 @@
     <record id="view_order_form_with_carrier" model="ir.ui.view">
         <field name="name">delivery.sale.order.form.view.with_carrier</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="inherit_id" ref="sale.view_order_form"/> 
         <field name="arch" type="xml">
             <header position="inside">
                 <!-- modified through an onchange, must be present but not readonly -->
@@ -13,6 +13,7 @@
             <div name="so_button_below_order_lines" position="inside">
                 <button
                     string="Add shipping"
+                    class="btn btn-warning"
                     name="action_open_delivery_wizard"
                     type="object"
                     invisible="is_all_service or not order_line or delivery_set"/>
