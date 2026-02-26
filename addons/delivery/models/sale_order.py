@@ -133,7 +133,7 @@ class SaleOrder(models.Model):
         return {
             'name': name,
             'type': 'ir.actions.act_window',
-            'view_mode': 'form',
+            'view_mode': 'form', 
             'res_model': 'choose.delivery.carrier',
             'view_id': view_id,
             'views': [(view_id, 'form')],

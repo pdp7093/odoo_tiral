@@ -281,6 +281,7 @@
                     string="Create Invoice" id="create_invoice_percentage"
                     name="%(sale.action_view_sale_advance_payment_inv)d"
                     type="action"
+                    class="btn btn-info"
                     context="{'default_advance_payment_method': 'percentage'}"
                     data-hotkey="q"
                     invisible="invoice_status != 'no' or state != 'sale'"/>

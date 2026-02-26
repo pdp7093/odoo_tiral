@@ -721,7 +721,7 @@
                                 data-hotkey="y"/>
                         <button name="action_print_pdf"
                                 type="object"
-                                class="oe_highlight bg-dark"
+                                class="oe_highlight btn-dark"
                                 invisible="state != 'posted' or is_being_sent or invoice_pdf_report_id or move_type == 'entry'"
                                 string="Print"/>
                         <button name="action_print_pdf"
@@ -729,8 +729,9 @@
                                 invisible="state != 'posted' or (not is_being_sent and not invoice_pdf_report_id)"
                                 string="Print"/>
                         <!-- Register Payment (only invoices / receipts) -->
+                         <!-- Pay Buttons -->
                         <button name="action_register_payment" id="account_invoice_payment_btn"
-                                type="object" class="oe_highlight bg-success" style="color:blue"
+                                type="object" class="oe_highlight btn-success" style="color:blue"
                                 invisible="(
                                     state != 'posted'
                                     or payment_state not in ('not_paid', 'partial', 'in_payment')

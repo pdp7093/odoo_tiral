@@ -1040,7 +1040,7 @@ class SaleOrder(models.Model):
             'view_mode': 'form',
             'target': 'new',
         }
-
+ 
     def action_draft(self):
         orders = self.filtered(lambda s: s.state in ['cancel', 'sent'])
         return orders.write({

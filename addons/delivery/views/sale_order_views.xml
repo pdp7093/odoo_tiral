@@ -16,7 +16,7 @@
                     class="btn btn-warning"
                     name="action_open_delivery_wizard"
                     type="object"
-                    invisible="is_all_service or not order_line or delivery_set"/>
+                    invisible="is_all_service or not order_line or delivery_set"/> 
                 <button
                     string="Update shipping cost"
                     name="action_open_delivery_wizard"

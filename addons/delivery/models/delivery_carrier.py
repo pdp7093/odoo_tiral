@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 from odoo.modules.registry import Registry
 from odoo.tools.safe_eval import safe_eval
 
-
+ 
 class DeliveryCarrier(models.Model):
     _name = 'delivery.carrier'
     _description = "Shipping Methods"

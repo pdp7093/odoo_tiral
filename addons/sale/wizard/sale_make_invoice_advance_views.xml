@@ -25,8 +25,11 @@
                 <group name="down_payment_specification"
                     invisible="advance_payment_method not in ('fixed', 'percentage')">
                     <field name="company_id" invisible="1"/>
-                    <label for="fixed_amount" invisible="advance_payment_method != 'fixed'"/>
-                    <label for="amount" invisible="advance_payment_method != 'percentage'"/>
+                    <!-- Fixed Amount selection -->
+                    <label for="fixed_amount" invisible="advance_payment_method != 'fixed'" class="border border-primary p-3" />
+                    <!-- Percentage selection --> 
+                    <label for="amount" invisible="advance_payment_method != 'percentage'" class="border border-success p-3" />
+                    
                     <div id="payment_method_details">
                         <field name="currency_id" invisible="1"/>
                         <field name="fixed_amount"
@@ -48,7 +51,7 @@
                     <button name="create_invoices" type="object"
                         id="create_invoice_open"
                         string="Create Draft"
-                        class="btn-primary" data-hotkey="q"/>
+                        class="btn-success" data-hotkey="q"/>
                     <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
                 </footer>
             </form>

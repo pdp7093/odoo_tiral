@@ -29,7 +29,7 @@ class AccountMove(models.Model):
         if downpayment_lines:
             downpayment_lines.unlink()
         return res
-
+ 
     @api.depends('invoice_user_id')
     def _compute_team_id(self):
         sale_moves = self.filtered(lambda move: move.is_sale_document(include_receipts=True))

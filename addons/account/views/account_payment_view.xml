@@ -190,7 +190,7 @@
                         <div class="oe_button_box" name="button_box">
                             <!-- Invoice stat button -->
                             <button name="button_open_invoices" type="object"
-                                    class="oe_stat_button" icon="fa-bars"
+                                    class="oe_stat_button " icon="fa-bars"
                                     invisible="reconciled_invoices_count == 0">
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_text">
@@ -253,7 +253,7 @@
                                 <field name="partner_id" context="{'default_is_company': True}" string="Customer"
                                        options="{'no_quick_create': True}"
                                        invisible="partner_type != 'customer'"
-                                       readonly="state != 'draft'"/>
+                                       readonly="state != 'draft'" />
                                 <field name="partner_id" context="{'default_is_company': True}" string="Vendor"
                                        options="{'no_quick_create': True}"
                                        invisible="partner_type != 'supplier'"
