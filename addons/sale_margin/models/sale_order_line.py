@@ -18,7 +18,7 @@ class SaleOrderLine(models.Model):
         groups="base.group_user")
 
     @api.depends('product_id', 'company_id', 'currency_id', 'product_uom_id')
-    def _compute_purchase_price(self):
+    def _compute_purchase_price(self): 
         for line in self:
             if not line.product_id:
                 line.purchase_price = 0.0

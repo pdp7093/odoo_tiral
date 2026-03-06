@@ -123,7 +123,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         invoices = self._create_invoices(self.sale_order_ids)
         return self.sale_order_ids.action_view_invoice(invoices=invoices)
 
-    def view_draft_invoices(self):
+    def view_draft_invoices(self): 
         return {
             'name': _('Draft Invoices'),
             'type': 'ir.actions.act_window',
@@ -133,7 +133,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             'domain': [('line_ids.sale_line_ids.order_id', 'in', self.sale_order_ids.ids), ('state', '=', 'draft')],
         }
 
-    #=== BUSINESS METHODS ===#
+    #=== BUSINESS METHODS ===# 
 
     def _create_invoices(self, sale_orders):
         self.ensure_one()

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Purchas Stock main Receive Button hai  -->
 <odoo>
 
         <!-- Top menu item -->
@@ -10,7 +11,7 @@
 
         <menuitem id="menu_procurement_management" name="Orders"
             parent="menu_purchase_root" sequence="1" />
-
+ 
         <!--Supplier menu-->
         <menuitem id="menu_procurement_management_supplier_name" name="Vendors"
             parent="menu_procurement_management"
@@ -84,7 +85,7 @@
                 whether it's a storable product, a consumable or a service.
               </p>
             </field>
-        </record>
+        </record> 
 
         <menuitem id="product_product_menu" name="Product Variants" action="product_product_action"
             parent="menu_purchase_products" sequence="21" groups="product.group_product_variant"/>
@@ -131,12 +132,14 @@
                 <header>
                     <field name="locked" invisible="1"/>
                     <field name="lock_confirmed_po" invisible="1"/>
+                    <!-- Draft State -->
                     <button name="action_rfq_send" invisible="state != 'draft'" string="Send RFQ" type="object" context="{'send_rfq':True}" class="oe_highlight" data-hotkey="g"/>
                     <button name="button_confirm" type="object" invisible="state != 'sent'" string="Confirm Order" context="{'validate_analytic': True}" class="oe_highlight" id="bid_confirm" data-hotkey="q"/>
                     <button name="button_approve" type="object" invisible="state != 'to approve'" string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager" data-hotkey="z"/>
                     <button name="action_rfq_send" invisible="state != 'sent'" string="Send RFQ" type="object" context="{'send_rfq':True}" data-hotkey="g"/>
                     <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm Order" id="draft_confirm" data-hotkey="q"/>
                     <widget name="purchase_file_uploader" invisible="state != 'purchase'"/>
+                    <!-- Send PO -->
                     <button name="action_rfq_send" invisible="state != 'purchase'" string="Send PO" type="object" context="{'send_rfq':False}" data-hotkey="g"/>
                     <button name="action_acknowledge" string="Acknowledge" type="object" invisible="acknowledged or state != 'purchase'"/>
                     <button name="button_draft" invisible="state != 'cancel'" string="Set to Draft" type="object" data-hotkey="o"/>
@@ -162,7 +165,9 @@
                         string="Duplicated Documents"
                     />
                 </div>
+                
                 <sheet>
+                    <!-- Bill Matching -->
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button"
                                 name="action_bill_matching"
@@ -553,10 +558,10 @@
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <list string="Purchase Order"
-                      decoration-muted="state=='cancel'" sample="1">
-                    <field name="priority" optional="show" widget="priority" nolabel="1"/>
+                      decoration-muted="state=='cancel'" sample="1" >
+                    <field name="priority" optional="show" widget="priority" class="bg-dark" />
                     <field name="partner_ref" optional="hide"/>
-                    <field name="name" string="Reference" readonly="1" decoration-info="state in ('draft','sent')"/>
+                    <field name="name" string="Reference" readonly="1" decoration-info="state in ('draft','sent')" decoration-success="state in('purchase')" />
                     <field name="date_order" column_invisible="not context.get('quotation_only', False)" readonly="state in ['cancel', 'purchase']" optional="show"/>
                     <field name="date_approve" column_invisible="context.get('quotation_only', False)" optional="show"/>
                     <field name="partner_id" readonly="1"/>
@@ -584,14 +589,14 @@
             <field name="priority" eval="10"/>
             <field name="arch" type="xml">
                 <list string="Purchase Order" decoration-info="state in ['draft', 'sent']"
-                decoration-muted="state == 'cancel'"
+                decoration-muted="state == 'cancel'" decoration-success="state in ['purchase']"
                 multi_edit="1"
                 class="o_purchase_order" js_class="purchase_dashboard_list" sample="1">
                     <header>
-                        <button name="button_cancel" type="object" string="Cancel"
+                        <button name="button_cancel" type="object" string="Cancel" class="btn btn-danger"
                             confirm="Are you sure you want to cancel the selected RFQs/Orders?"/>
                     </header>
-                    <field name="priority" optional="show" widget="priority" nolabel="1"/>
+                    <field name="priority" optional="show" widget="priority" string="Priority"  />
                     <field name="partner_ref" optional="hide"/>
                     <field name="name" string="Reference" readonly="1" decoration-bf="1"/>
                     <field name="date_approve" column_invisible="context.get('quotation_only', False)" optional="show"/>
@@ -731,7 +736,7 @@
         <record id="purchase_order_line_tree" model="ir.ui.view">
             <field name="name">purchase.order.line.list</field>
             <field name="model">purchase.order.line</field>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml"> 
                 <list string="Purchase Order Lines" create="false">
                     <field name="order_id"/>
                     <field name="name"/>
@@ -820,6 +825,7 @@
         <field name="name">purchase.history.list</field>
         <field name="model">purchase.order.line</field>
         <field name="arch" type="xml">
+            <!-- Product -->
             <list create="false" default_order="order_id asc"
                     decoration-info="order_id == context.get('active_id')"
                     action="action_open_order" type="object">
@@ -830,7 +836,7 @@
                 <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="product_uom_qty" string="Quantity"/>
                 <field name="price_unit_product_uom" widget="monetary" string="Unit Price"/>
-                <field name="price_subtotal" widget="monetary" string="Total Untaxed"/>
+                <field name="price_subtotal"  widget="monetary" string="Total Untaxed"/>
                 <field name="state" optional="hide"/>
             </list>
         </field>

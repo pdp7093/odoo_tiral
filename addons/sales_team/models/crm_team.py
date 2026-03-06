@@ -248,9 +248,9 @@ class CrmTeam(models.Model):
         """ Skeleton function to be overloaded It will return the adequate action
         depending on the Sales Team's options. """
         return False
-
+ 
     # ------------------------------------------------------------
-    # TOOLS
+    # TOOLS 
     # ------------------------------------------------------------
 
     def _add_members_to_favorites(self):

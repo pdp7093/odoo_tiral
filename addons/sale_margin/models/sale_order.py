@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line.margin', 'amount_untaxed')
     def _compute_margin(self):
         if not all(self._ids):
-            for order in self:
+            for order in self: 
                 order.margin = sum(order.order_line.mapped('margin'))
                 order.margin_percent = order.amount_untaxed and order.margin/order.amount_untaxed
         else:

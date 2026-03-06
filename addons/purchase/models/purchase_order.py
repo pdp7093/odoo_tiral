@@ -16,7 +16,7 @@ from odoo.tools.float_utils import float_is_zero, float_repr
 from odoo.exceptions import AccessDenied, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
-
+ 
 
 class PurchaseOrder(models.Model):
     _name = 'purchase.order'
@@ -714,7 +714,7 @@ class PurchaseOrder(models.Model):
                 ('partner_id', 'in', (self.partner_id | self.partner_id.commercial_partner_id).ids),
                 ('company_id', 'in', self.env.company.ids),
                 ('purchase_order_id', 'in', [self.id, False]),
-            ],
+            ], 
             'views': [(self.env.ref('purchase.purchase_bill_line_match_tree').id, 'list')],
         }
 

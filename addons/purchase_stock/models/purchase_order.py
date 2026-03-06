@@ -282,7 +282,7 @@ class PurchaseOrder(models.Model):
         result['context'] = {'default_partner_id': self.partner_id.id, 'default_origin': self.name, 'default_picking_type_id': self.picking_type_id.id}
         # choose the view_mode accordingly
         if not pickings or len(pickings) > 1:
-            result['domain'] = [('id', 'in', pickings.ids)]
+            result['domain'] = [('id', 'in', pickings.ids)] 
         elif len(pickings) == 1:
             res = self.env.ref('stock.view_picking_form', False)
             form_view = [(res and res.id or False, 'form')]

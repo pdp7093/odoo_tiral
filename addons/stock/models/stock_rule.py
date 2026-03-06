@@ -14,7 +14,7 @@ from odoo.tools import float_is_zero
 from odoo.tools.misc import split_every
 
 _logger = logging.getLogger(__name__)
-
+      
 
 class ProcurementException(Exception):
     """An exception raised by StockRule `run` containing all the faulty

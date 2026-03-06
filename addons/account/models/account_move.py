@@ -5368,7 +5368,7 @@ class AccountMove(models.Model):
 
 
     def _reverse_moves(self, default_values_list=None, cancel=False):
-        ''' Reverse a recordset of account.move.
+        ''' Reverse a recordset of account.move. 
         If cancel parameter is true, the reconcilable or liquidity lines
         of each original move will be reconciled with its reverse's.
         :param default_values_list: A list of default values to consider per move.
@@ -5920,10 +5920,10 @@ class AccountMove(models.Model):
 
         if self.is_invoice():
             action['name'] = _('Credit Note')
-
+ 
         return action
 
-    def action_post(self):
+    def action_post(self): 
         # Disabled by default to avoid breaking automated action flow
         if (
             not self.env.context.get('disable_abnormal_invoice_detection', True)

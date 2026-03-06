@@ -12,7 +12,7 @@
                     <field name="move_type" invisible="1"/>
                     <field name="available_journal_ids" invisible="1"/>
                     <group>
-                        <field name="reason" invisible="move_type == 'entry'"/>
+                        <field name="reason" invisible="move_type == 'entry'" class="border border-success" />
                         <field name="journal_id" domain="[('id', 'in', available_journal_ids)]"/>
                         <field name="date" required="1"/>
                     </group>

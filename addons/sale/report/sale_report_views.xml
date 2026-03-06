@@ -10,7 +10,7 @@
                  <field name="date" interval="month" type="row"/>
                  <field name="product_uom_qty" type="measure"/>
              </pivot>
-         </field>
+         </field> 
     </record>
 
     <record id="view_order_product_graph" model="ir.ui.view">

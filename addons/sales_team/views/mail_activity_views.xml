@@ -11,6 +11,6 @@
             </p><p>
                 Those represent the different categories of things you have to do (e.g. "Call" or "Prepare meeting").
             </p>
-        </field>
+        </field> 
     </record>
 </odoo>

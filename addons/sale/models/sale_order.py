@@ -90,7 +90,7 @@ class SaleOrder(models.Model):
              "this date rather than product lead times.")
     date_order = fields.Datetime(
         string="Order Date",
-        required=True, copy=False,
+        required=True, copy=False, 
         help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.",
         default=fields.Datetime.now)
     origin = fields.Char(
@@ -1165,6 +1165,7 @@ class SaleOrder(models.Model):
 
         self.order_line._validate_analytic_distribution()
 
+        # Use to change the state of quotation.
         self.write(self._prepare_confirmation_values())
 
         # Context key 'default_name' is sometimes propagated up to here.

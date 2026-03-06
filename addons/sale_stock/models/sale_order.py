@@ -247,7 +247,7 @@ class SaleOrder(models.Model):
         return res
 
     def action_view_delivery(self):
-        return self._get_action_view_picking(self.picking_ids)
+        return self._get_action_view_picking(self.picking_ids) 
 
     def _action_cancel(self):
         documents = None
@@ -271,7 +271,7 @@ class SaleOrder(models.Model):
         This function returns an action that display existing delivery orders
         of given sales order ids. It can either be a in a list or in a form
         view, if there is only one delivery order to show.
-        '''
+        ''' 
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
 
         if len(pickings) > 1:

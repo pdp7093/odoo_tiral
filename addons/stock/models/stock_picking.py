@@ -615,7 +615,7 @@ class StockPicking(models.Model):
         check_company=True, required=True)
     move_ids = fields.One2many('stock.move', 'picking_id', string="Stock Moves", copy=True)
     has_scrap_move = fields.Boolean(
-        'Has Scrap Moves', compute='_has_scrap_move')
+        'Has Scrap Moves', compute='_has_scrap_move') 
     picking_type_id = fields.Many2one(
         'stock.picking.type', 'Operation Type',
         required=True, index=True,
@@ -1732,7 +1732,7 @@ class StockPicking(models.Model):
         return: all the pickings that contain a destination moves
         (direct and indirect) from the moves given as arguments.
         """
-
+ 
         def _explore(impacted_pickings, explored_moves, moves_to_explore):
             for move in moves_to_explore:
                 if move not in explored_moves:

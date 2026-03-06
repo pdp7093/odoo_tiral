@@ -22,7 +22,7 @@ _ref_company_registry = {
     'fi': '8763054-9',
 }
 
-
+ 
 class AccountFiscalPosition(models.Model):
     _name = 'account.fiscal.position'
     _description = 'Fiscal Position'

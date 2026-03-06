@@ -24,7 +24,7 @@
                     type="object"
                     class="text-warning btn-secondary"
                     invisible="is_all_service or not recompute_delivery_price or not delivery_set"/>
-                <button
+                <button 
                     string="Update shipping cost"
                     name="action_open_delivery_wizard"
                     context="{'carrier_recompute':True}"
@@ -35,7 +35,7 @@
                 <attribute name="decoration-warning" add="(recompute_delivery_price and is_delivery)" separator="or"/>
             </xpath>
             <label for="commitment_date" position="before">
-                <field name="shipping_weight" readonly="True"/>
+                <field name="shipping_weight" readonly="True"/> 
             </label>
         </field>
     </record>

@@ -127,7 +127,7 @@
                 <field name="message_needaction" column_invisible="True"/>
                 <field name="currency_id" column_invisible="True"/>
 
-                <field name="name" string="Number" readonly="1" decoration-bf="1" class="bg-info" />
+                <field name="name" string="Number" readonly="1" decoration-bf="1" />
                 <field name="date_order" optional="show" readonly="state in ['cancel', 'sale']"/>
                 <field name="commitment_date" optional="hide"/>
                 <field name="expected_date" optional="hide"/>
@@ -272,7 +272,7 @@
                 <button
                     string="Create Invoice"
                     id="create_invoice"
-                    name="%(sale.action_view_sale_advance_payment_inv)d"
+                    name="%(sale.action_view_sale_advance_payment_inv)d" 
                     type="action"
                     class="btn-info"
                     data-hotkey="q"
@@ -545,7 +545,7 @@
                                                 required="not display_type and not is_downpayment"/>
                                         </div>
                                         <label for="qty_delivered" string="Delivered" invisible="parent.state != 'sale'"/>
-                                        <div name="delivered_qty" invisible="parent.state != 'sale'">
+                                        <div name="delivered_qty" invisible="parent.state != 'sale'" >
                                             <field name="qty_delivered" readonly="qty_delivered_method != 'manual'"/>
                                         </div>
                                         <label for="qty_invoiced" string="Invoiced" invisible="parent.state != 'sale'"/>
@@ -688,6 +688,8 @@
                                     decoration-info="(not display_type and invoice_status == 'to invoice')"
                                     decoration-bf="(not display_type and invoice_status == 'to invoice')"
                                     readonly="is_downpayment"/>
+                                    
+                                    <!-- Delivered Form -->
                                 <field
                                     name="qty_delivered"
                                     string="Delivered"

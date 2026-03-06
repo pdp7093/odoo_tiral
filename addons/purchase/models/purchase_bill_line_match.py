@@ -148,7 +148,7 @@ class PurchaseBillLineMatch(models.Model):
             'partner_id': partner.id,
         })
         bill._add_purchase_order_lines(po_lines)
-        return bill._get_records_action()
+        return bill._get_records_action() 
 
     def action_match_lines(self):
         if not self.pol_id:  # we need POL(s) to either match or create bill

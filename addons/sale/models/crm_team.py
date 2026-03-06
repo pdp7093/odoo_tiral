@@ -64,7 +64,7 @@ class CrmTeam(models.Model):
     def action_primary_channel_button(self):
         if self._in_sale_scope():
             return self.env["ir.actions.actions"]._for_xml_id("sale.action_order_report_so_salesteam")
-        return super().action_primary_channel_button()
+        return super().action_primary_channel_button() 
 
     def update_invoiced_target(self, value):
         return self.write({'invoiced_target': round(float(value or 0))})

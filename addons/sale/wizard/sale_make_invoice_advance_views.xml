@@ -45,8 +45,8 @@
                     </div>
                 </group>
                 <group invisible="not has_down_payments">
-                    <field name="amount_invoiced"/>
-                </group>
+                    <field name="amount_invoiced"/> 
+                </group> 
                 <footer>
                     <button name="create_invoices" type="object"
                         id="create_invoice_open"
