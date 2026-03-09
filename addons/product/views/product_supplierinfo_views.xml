@@ -15,7 +15,7 @@
                             <field name="product_code"/>
                             <label for="delay"/>
                             <div>
-                                <field name="delay" class="oe_inline"/> days
+                                <field name="delay" class="oe_inline" /> days
                             </div>
                         </group>
                         <group string="Pricelist">
@@ -90,13 +90,14 @@
         <field name="model">product.supplierinfo</field>
         <field name="arch" type="xml">
             <list string="Vendor Information" multi_edit="1">
-                <field name="sequence" widget="handle"/>
+                <field name="sequence" widget="handle"/> 
                 <field name="partner_id" readonly="1"/>
                 <field name="product_id" optional="hide"
                     readonly="1"
                     column_invisible="context.get('product_template_invisible_variant', False)"
                     groups="product.group_product_variant"
                     domain="[('product_tmpl_id', '=', context.get('default_product_tmpl_id'))] if context.get('default_product_tmpl_id') else [('product_tmpl_id', '=', product_tmpl_id)]"/>
+                
                 <field name="product_tmpl_id" string="Product"
                     readonly="1"
                     column_invisible="context.get('visible_product_tmpl_id', True)"/>

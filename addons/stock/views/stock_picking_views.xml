@@ -105,7 +105,7 @@
                     <field name="json_popover" widget="stock_rescheduling_popover" nolabel="1" invisible="not json_popover"/>
                 </list>
             </field>
-        </record>
+        </record> 
 
         <record id="view_picking_form" model="ir.ui.view"> 
             <field name="name">stock.picking.form</field>

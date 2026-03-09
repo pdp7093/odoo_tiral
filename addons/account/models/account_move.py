@@ -5946,6 +5946,7 @@ class AccountMove(models.Model):
             return autopost_bills_wizard
         return False
 
+
     def _get_moves_requiring_confirmation(self):
         """Return the subset of moves that require confirmation before validation."""
         return self.filtered(

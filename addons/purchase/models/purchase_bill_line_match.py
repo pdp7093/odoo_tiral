@@ -155,7 +155,7 @@ class PurchaseBillLineMatch(models.Model):
             raise UserError(_("You must select at least one Purchase Order line to match or create bill."))
         if not self.aml_id:  # select POL(s) without AML -> create a draft bill with the POL(s)
             return self._action_create_bill_from_po_lines(self.partner_id, self.pol_id)
-
+ 
         pol_by_product = self.pol_id.grouped('product_id')
         aml_by_product = self.aml_id.grouped('product_id')
         residual_purchase_order_lines = self.pol_id
@@ -173,10 +173,11 @@ class PurchaseBillLineMatch(models.Model):
         if len(residual_bill := self.aml_id.move_id) == 1:
             # Delete all unmatched selected AML
             if residual_account_move_lines:
-                residual_account_move_lines.unlink()
+                residual_account_move_lines.unlink() 
 
             # Add all remaining POL to the residual bill
             residual_bill._add_purchase_order_lines(residual_purchase_order_lines)
+
 
     def action_add_to_po(self):
         if not self or not self.aml_id:
@@ -201,3 +202,5 @@ class PurchaseBillLineMatch(models.Model):
             'views': [(self.env.ref('purchase.bill_to_po_wizard_form').id, 'form')],
             'context': context,
         }
+
+

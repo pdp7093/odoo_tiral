@@ -35,6 +35,7 @@
             action="product.attribute_action" name="Attributes"
             parent="purchase.menu_product_in_config_purchase"  groups="product.group_product_variant" sequence="1"/>
 
+
         <menuitem
             action="product.product_category_action_form" id="menu_product_category_config_purchase"
             parent="purchase.menu_product_in_config_purchase" sequence="3" />
@@ -137,7 +138,7 @@
                     <button name="button_confirm" type="object" invisible="state != 'sent'" string="Confirm Order" context="{'validate_analytic': True}" class="oe_highlight" id="bid_confirm" data-hotkey="q"/>
                     <button name="button_approve" type="object" invisible="state != 'to approve'" string="Approve Order" class="oe_highlight" groups="purchase.group_purchase_manager" data-hotkey="z"/>
                     <button name="action_rfq_send" invisible="state != 'sent'" string="Send RFQ" type="object" context="{'send_rfq':True}" data-hotkey="g"/>
-                    <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm Order" id="draft_confirm" data-hotkey="q"/>
+                    <button name="button_confirm" type="object" invisible="state != 'draft'" context="{'validate_analytic': True}" string="Confirm Order" class="btn btn-info"  id="draft_confirm" data-hotkey="q"/>
                     <widget name="purchase_file_uploader" invisible="state != 'purchase'"/>
                     <!-- Send PO -->
                     <button name="action_rfq_send" invisible="state != 'purchase'" string="Send PO" type="object" context="{'send_rfq':False}" data-hotkey="g"/>
@@ -166,8 +167,8 @@
                     />
                 </div>
                 
-                <sheet>
-                    <!-- Bill Matching -->
+                <sheet> 
+                    <!-- Bill Matching --> 
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button"
                                 name="action_bill_matching"
@@ -227,7 +228,7 @@
                             </div>
                             <label for="date_planned"/>
                             <div name="date_planned_div" class="o_row">
-                                <field name="date_planned" readonly="state not in ('draft', 'sent', 'to approve', 'purchase')"/>
+                                <field name="date_planned" readonly="state not in ('draft', 'sent', 'to approve', 'purchase')" class="border border-success border-3 p-3 rounded-5" />
                             </div>
                             <label for="receipt_reminder_email" class="d-none" groups="purchase.group_send_reminder"/>
                             <div name="reminder" class="o_row" groups='purchase.group_send_reminder' title="Automatically send a confirmation email to the vendor X days before the expected receipt date, asking him to confirm the exact date.">
@@ -606,10 +607,14 @@
                     <field name="company_id" groups="!base.group_multi_company" column_invisible="True" readonly="state in ['cancel', 'purchase']"/>
                     <field name="date_planned" column_invisible="context.get('quotation_only', False)" optional="show"/>
                     <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                    
+
                     <field name="date_order"
                         invisible="state == 'purchase' or state == 'cancel'"
                         column_invisible="not context.get('quotation_only', False)"
-                        readonly="state in ['cancel', 'purchase']" widget="remaining_days" optional="show"/>
+                        readonly="state in ['cancel', 'purchase']" widget="remaining_days" optional="show"
+                        class="border border-dark p-1" />
+                    
                     <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="origin" optional="hide"/>
                     <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed" widget="monetary" optional="hide"/>
@@ -701,7 +706,8 @@
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
                 No request for quotation found. Let's create one!
-              </p><p>
+              </p>
+              <p>
                 Requests for quotation are documents that will be sent to your suppliers to request prices for different products you consider buying.
                 Once an agreement has been found with the supplier, they will be confirmed and turned into purchase orders.
               </p>
@@ -828,11 +834,11 @@
             <!-- Product -->
             <list create="false" default_order="order_id asc"
                     decoration-info="order_id == context.get('active_id')"
-                    action="action_open_order" type="object">
+                    action="action_open_order" type="object" class="text-center">
                 <field name="currency_id" column_invisible="True"/>
                 <field name="order_id" widget="many2one"/>
                 <field name="date_approve"/>
-                <field name="partner_id" string="Vendor"/>
+                <field name="partner_id" string="Vendor" class="bg-primary text-white text-center" />
                 <field name="company_id" optional="show" groups="base.group_multi_company"/>
                 <field name="product_uom_qty" string="Quantity"/>
                 <field name="price_unit_product_uom" widget="monetary" string="Unit Price"/>

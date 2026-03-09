@@ -26,7 +26,7 @@
                     <field name="buyer_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
                 </field>
             </field>
-    </record>
+    </record> 
 
     <record id="act_res_partner_2_purchase_order" model="ir.actions.act_window">
             <field name="name">RFQs and Purchases</field>

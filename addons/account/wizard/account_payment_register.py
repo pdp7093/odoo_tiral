@@ -1312,7 +1312,7 @@ class AccountPaymentRegister(models.TransientModel):
                 'view_mode': 'list,form',
                 'domain': [('id', 'in', payments.ids)],
             })
-        return action
+        return action 
 
     def _get_batch_account(self, batch_result):
         # Get the batch bank account

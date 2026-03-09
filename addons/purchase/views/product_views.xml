@@ -82,7 +82,7 @@
                     </group>
                 </group>
             </field>
-        </record>
+        </record> 
 
         <record id="view_product_product_supplier_inherit" model="ir.ui.view">
             <field name="name">product.product.form</field>
