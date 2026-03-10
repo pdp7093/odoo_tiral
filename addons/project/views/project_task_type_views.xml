@@ -15,7 +15,7 @@
                     </group>
                 </search>
             </field>
-        </record>
+        </record> 
 
         <record id="task_type_edit" model="ir.ui.view">
             <field name="name">project.task.type.form</field>

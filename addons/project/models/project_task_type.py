@@ -19,7 +19,7 @@ class ProjectTaskType(models.Model):
 
     def _default_user_id(self):
         return not self.env.context.get('default_project_id', False) and self.env.uid
-
+ 
     active = fields.Boolean('Active', default=True, export_string_translation=False)
     name = fields.Char(string='Name', required=True, translate=True)
     sequence = fields.Integer(default=1)
@@ -28,7 +28,7 @@ class ProjectTaskType(models.Model):
         help="Projects in which this stage is present. If you follow a similar workflow in several projects,"
             " you can share this stage among them and get consolidated information this way.")
     mail_template_id = fields.Many2one(
-        'mail.template',
+        'mail.template', 
         string='Email Template',
         domain=[('model', '=', 'project.task')],
         help="If set, an email will be automatically sent to the customer when the task reaches this stage.")

@@ -922,7 +922,7 @@ class ProjectProject(models.Model):
         not_fav_projects.write({'favorite_user_ids': [(4, self.env.uid)]})
         favorite_projects.write({'favorite_user_ids': [(3, self.env.uid)]})
 
-    def action_view_tasks(self):
+    def action_view_tasks(self): 
         action = self.env['ir.actions.act_window'].with_context(active_id=self.id)._for_xml_id('project.act_project_project_2_project_task_all')
         action['display_name'] = self.name
         context = action['context'].replace('active_id', str(self.id))

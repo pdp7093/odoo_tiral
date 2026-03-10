@@ -13,7 +13,7 @@
                     </templates>
                 </activity>
             </field>
-        </record>
+        </record> 
 
         <record id="action_send_mail_project_project" model="ir.actions.act_window">
             <field name="name">Send Email</field>
