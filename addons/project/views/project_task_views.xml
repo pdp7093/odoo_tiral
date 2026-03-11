@@ -5,7 +5,7 @@
             <field name="name">project.task.search.form</field>
             <field name="model">project.task</field>
             <field name="priority">999</field>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml"> 
                 <search string="Tasks">
                     <field name="name" string="Tasks" filter_domain="[('name', 'ilike', self)]"/>
                     <field name="tag_ids"/>
@@ -121,7 +121,7 @@
                     <separator invisible="1"/>
                     <filter invisible="1" string="My Activities" name="filter_activities_my"
                         domain="[('activity_user_id', '=', uid)]"/>
-                    <separator invisible="1"/>
+                    <separator invisible="1"/> 
                     <filter invisible="1" string="Late Activities" name="activities_overdue"
                         domain="[('my_activity_date_deadline', '&lt;', 'today')]"
                         help="Show all records whose next activity date is past"/>
@@ -424,7 +424,7 @@
                             <field name="milestone_id"
                                 placeholder="e.g. Product Launch"
                                 context="{'default_project_id': project_id}"
-                                invisible="not project_id or not allow_milestones"/>
+                                invisible="not project_id or not allow_milestones" class="border border-info border-2 p-1" />
                             <field name="user_ids"
                                 class="o_task_user_field"
                                 options="{'no_open': True}"
@@ -712,8 +712,8 @@
                                         <field name="is_rotting" invisible="1"/>
                                         <field name="rotting_days" widget="rotting" class="ms-1 d-flex"/>
                                     </div>
-                                    <div class="d-flex ms-auto">
-                                        <field name="user_ids" widget="many2many_avatar_user"/>
+                                    <div class="d-flex ms-auto ">
+                                        <field name="user_ids" widget="many2many_avatar_user" class="border border-info p-2" />
                                         <field name="state" class="ms-1" widget="project_task_state_selection" options="{'is_toggle_mode': false}"/>
                                     </div>
                                 </footer>
@@ -739,7 +739,7 @@
             </field>
         </record>
 
-        <!-- The main base of the project.task list view -->
+        <!-- The main base of the project.task list view project.task.list-->
         <record id="project_task_view_tree_main_base" model="ir.ui.view">
             <field name="name">project.task.view.list.main.base</field>
             <field name="model">project.task</field>

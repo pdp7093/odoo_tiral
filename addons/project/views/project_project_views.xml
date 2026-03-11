@@ -140,7 +140,7 @@
                 </form>
             </field>
         </record>
-
+ 
         <record id="view_project_project_filter" model="ir.ui.view">
             <field name="name">project.project.select</field>
             <field name="model">project.project</field>
@@ -186,12 +186,13 @@
                 </search>
             </field>
         </record>
-
+ 
         <record id="view_project" model="ir.ui.view">
             <field name="name">project.project.list</field>
             <field name="model">project.project</field>
             <field name="arch" type="xml">
-                <list decoration-muted="active == False" string="Projects" multi_edit="1" sample="1" default_order="is_favorite desc, sequence, name, id" js_class="project_project_list">
+                <list decoration-muted="active == False" string="Projects" multi_edit="1" sample="1" 
+                    default_order="is_favorite desc, sequence, name, id" js_class="project_project_list">
                     <field name="sequence" column_invisible="True"/>
                     <field name="message_needaction" column_invisible="True"/>
                     <field name="active" column_invisible="True"/>
@@ -218,7 +219,7 @@
                     <field name="user_id" optional="show" string="Project Manager" widget="many2one_avatar_user" options="{'no_open':True, 'no_create': True}"/>
                     <field name="last_update_color" column_invisible="True"/>
                     <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
-                    <field name="last_update_status" string="Status" nolabel="1" width="20px" optional="show" widget="project_state_selection" invisible="is_template"/>
+                    <field name="last_update_status" string="Status"  width="20px" optional="show" widget="project_state_selection" invisible="is_template"/>
                     <field name="stage_id_color" column_invisible="1"/>
                     <field name="stage_id" domain="[('company_id', 'in', (company_id, False))]" optional="show" widget="badge" options="{'no_open': True, 'color_field': 'stage_id_color'}" />
                     <button string="View Tasks" name="action_view_tasks" type="object"/>
@@ -454,7 +455,7 @@
                                     <div class="o_project_kanban_boxes d-flex align-items-baseline">
                                         <a class="o_project_kanban_box me-1" name="action_view_tasks" type="object">
                                             <div>
-                                                <field name="open_task_count" class="o_value"/>
+                                                <field name="open_task_count" class="o_value border border-info p-1"/>
                                                 <field name="label_tasks" class="ms-1"/>
                                             </div>
                                         </a>
@@ -463,15 +464,16 @@
                                             role="button"
                                             name="action_get_list_view"
                                             type="object"
+                                            class="border border-dark border-2 p-3"
                                             t-attf-title="#{record.milestone_count_reached.value} Milestones reached out of #{record.milestone_count.value}"
                                         >
                                             <span class="fa fa-flag me-1"/>
-                                            <field name="milestone_count_reached"/>/<field name="milestone_count"/>
+                                            <field name="milestone_count_reached" />/<field name="milestone_count"/>
                                         </a>
                                     </div>
                                     <field name="activity_ids" widget="kanban_activity" class="ms-2"/>
                                 </div>
-                                <div class="d-flex ms-auto align-items-center">
+                                <div class="d-flex ms-auto align-items-center border border-dark p-2 ">
                                     <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]" class="me-1"/>
                                     <field t-if="record.last_update_status.value &amp;&amp; widget.editable &amp;&amp; !record.is_template.raw_value" name="last_update_status" widget="project_state_selection"/>
                                     <span t-if="record.last_update_status.value &amp;&amp; !widget.editable" t-att-class="'o_status_bubble mx-0 o_color_bubble_' + record.last_update_color.value" t-att-title="record.last_update_status.value"></span>
@@ -636,8 +638,8 @@
                     Projects contain tasks on the same topic, and each has its own dashboard.
                 </p>
             </field>
-        </record>
-
+        </record> 
+ 
         <record id="open_view_project_all_config_group_stage_tree_action_view" model="ir.actions.act_window.view">
             <field name="sequence" eval="10"/>
             <field name="view_mode">list</field>

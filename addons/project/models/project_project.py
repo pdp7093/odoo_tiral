@@ -150,7 +150,7 @@ class ProjectProject(models.Model):
     # Project Sharing fields
     collaborator_ids = fields.One2many('project.collaborator', 'project_id', string='Collaborators', copy=False, export_string_translation=False)
     collaborator_count = fields.Integer('# Collaborators', compute='_compute_collaborator_count', compute_sudo=True, export_string_translation=False)
-
+ 
     # Not `required` since this is an option to enable in project settings.
     stage_id = fields.Many2one('project.project.stage', string='Stage', ondelete='restrict', groups="project.group_project_stages",
         tracking=True, index=True, copy=False, default=_default_stage_id, group_expand='_read_group_expand_full')
@@ -166,7 +166,7 @@ class ProjectProject(models.Model):
         ('off_track', 'Off Track'),
         ('on_hold', 'On Hold'),
         ('to_define', 'Set Status'),
-        ('done', 'Complete'),
+        ('done', 'Complete'), 
     ], default='to_define', compute='_compute_last_update_status', store=True, readonly=False, required=True, export_string_translation=False)
     last_update_color = fields.Integer(compute='_compute_last_update_color', export_string_translation=False)
     milestone_ids = fields.One2many('project.milestone', 'project_id', copy=True, export_string_translation=False)
@@ -654,7 +654,7 @@ class ProjectProject(models.Model):
             vals.pop('last_update_status')
         if vals.get('privacy_visibility'):
             self._change_privacy_visibility(vals['privacy_visibility'])
-
+ 
         date_start = vals.get('date_start', True)
         date_end = vals.get('date', True)
         if not date_start or not date_end:
