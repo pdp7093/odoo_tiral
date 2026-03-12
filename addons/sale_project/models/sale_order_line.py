@@ -5,7 +5,7 @@ from odoo.exceptions import AccessError, UserError
 
 
 class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"
+    _inherit = "sale.order.line" 
 
     qty_delivered_method = fields.Selection(selection_add=[('milestones', 'Milestones')])
     project_id = fields.Many2one(

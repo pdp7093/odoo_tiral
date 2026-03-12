@@ -5,7 +5,7 @@
         <field name="model">project.milestone</field>
         <field name="arch" type="xml">
             <form>
-                <sheet> 
+                <sheet>  
                     <div class="oe_button_box" name="button_box">
                         <button name="%(project.action_view_task_from_milestone)d"
                                 type="action"

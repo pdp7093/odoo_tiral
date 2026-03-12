@@ -1182,6 +1182,7 @@ class SaleOrder(models.Model):
 
         return True
 
+
     def _should_be_locked(self):
         self.ensure_one()
         # Public user can confirm SO, so we check the group on any record creator.

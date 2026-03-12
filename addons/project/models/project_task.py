@@ -1460,7 +1460,7 @@ class ProjectTask(models.Model):
         for task in self:
             if task.project_id != task.milestone_id.project_id:
                 task.milestone_id = task.parent_id.project_id == task.project_id and task.parent_id.milestone_id
-
+ 
     def _compute_has_late_and_unreached_milestone(self):
         if all(not task.allow_milestones for task in self):
             self.has_late_and_unreached_milestone = False

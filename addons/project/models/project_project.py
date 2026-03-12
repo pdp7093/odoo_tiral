@@ -93,7 +93,7 @@ class ProjectProject(models.Model):
     currency_id = fields.Many2one('res.currency', compute="_compute_currency_id", string="Currency", readonly=True, export_string_translation=False)
     analytic_account_balance = fields.Monetary(related="account_id.balance")
     account_id = fields.Many2one('account.analytic.account', copy=False, domain="['|', ('company_id', '=', False), ('company_id', '=?', company_id)]", ondelete='set null')
-
+ 
     favorite_user_ids = fields.Many2many(
         'res.users', 'project_favorite_user_rel', 'project_id', 'user_id',
         string='Members', export_string_translation=False, copy=False)
@@ -929,7 +929,7 @@ class ProjectProject(models.Model):
         context = ast.literal_eval(context)
         context.update({
             'create': self.active,
-            'active_test': self.active,
+            'active_test': self.active, 
             'active_id': self.id,
             'allow_milestones': self.allow_milestones,
             'allow_task_dependencies': self.allow_task_dependencies,
