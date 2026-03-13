@@ -887,7 +887,7 @@ class ProjectProject(models.Model):
                 } for stage in self.type_ids
             }
         })
-        action['context'] = context
+        action['context'] = context 
         return action
 
     def project_update_all_action(self):

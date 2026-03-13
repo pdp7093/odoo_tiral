@@ -344,7 +344,7 @@
             </xpath>
             <xpath expr="//button[@name='action_view_tasks']" position="after">
                 <button name="action_view_sale_order" type="object" string="View Sales Order"
-                    class="btn btn-link float-end" invisible="not sale_line_id"/>
+                    class="btn btn-outline-success btn-link float-end" invisible="not sale_line_id"/>
             </xpath>
         </field>
     </record>

@@ -536,7 +536,7 @@
                                     <field name="closed_subtask_count" column_invisible="True"/>
                                     <field name="id" optional="hide" options="{'enable_formatting': False}"/>
                                     <field name="state" widget="project_task_state_selection" nolabel="1" width="20px"/>
-                                    <field name="name" widget="name_with_subtask_count"/>
+                                    <field name="name" widget="name_with_subtask_count" class="bg-success" />
                                     <field name="project_id" optional="hide" options="{'no_open': 1}" />
                                     <field name="milestone_id"
                                         optional="hide"
@@ -560,7 +560,7 @@
                                     <field name="stage_id" optional="hide"/>
                                 </list>
                             </field>
-                        </page>
+                        </page> 
                         <page name="extra_info" string="Extra Info" groups="base.group_no_one">
                             <group>
                                 <group>

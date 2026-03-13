@@ -16,7 +16,7 @@
             <field name="model">res.partner</field>
             <field eval="8" name="priority"/> 
             <field name="arch" type="xml">
-                <list string="Contacts" sample="1" multi_edit="1" class="text-center">
+                <list string="Contacts" sample="1" multi_edit="1" class="text-center" domain="[('parent_id','=',False)]">
                     <field name="avatar_128" widget="image" options="{'size': [24, 24], 'img_class': 'o_avatar rounded'}" 
                         width="30" nolabel="1" />
                     <field name="complete_name" string="Name" class="bg-success" />
