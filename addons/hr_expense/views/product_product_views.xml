@@ -98,7 +98,7 @@
             <field name="name">product.product.expense.list</field>
             <field name="model">product.product</field>
             <field eval="50" name="priority"/>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml"> 
                 <list string="Product Variants" default_order="is_favorite desc, default_code, name, id">
                     <field name="default_code"/>
                     <field name="name"/>

@@ -13,7 +13,7 @@ import { onWillStart } from "@odoo/owl";
 
 export class ExpenseListController extends ExpenseDocumentUpload(ListController) {
     static template = `hr_expense.ListView`;
-
+ 
     setup() {
         super.setup();
         this.orm = useService('orm');

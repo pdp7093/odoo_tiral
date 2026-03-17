@@ -4,7 +4,9 @@
             <field name="name">hr.expense.list</field>
             <field name="model">hr.expense</field>
             <field name="arch" type="xml">
-                <list string="Expenses" multi_edit="1" sample="1" js_class="hr_expense_tree" decoration-info="state == 'draft'">
+                <list string="Expenses" multi_edit="1" sample="1" js_class="hr_expense_tree" 
+                    decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" decoration-success="state == 'paid'">
+                    
                     <field name="is_editable" column_invisible="True"/>
                     <field name="company_id" column_invisible="True"/>
                     <field name="company_currency_id" column_invisible="True"/>
@@ -14,8 +16,8 @@
                     <field name="selectable_payment_method_line_ids" column_invisible="True"/>
 
                     <!--  Always Shown start -->
-                    <field name="employee_id" widget="many2one_avatar_employee" readonly="not is_editable"/>
-                    <field name="name" readonly="not is_editable"/>
+                    <field name="employee_id"   widget="many2one_avatar_employee" readonly="not is_editable"/>
+                    <field name="name" readonly="not is_editable" />
 
                     <!--  Optional -->
                     <field name="department_id" optional="hide" readonly="True"/>
@@ -97,7 +99,7 @@
             <field name="name">hr.expense.view.form</field>
             <field name="model">hr.expense</field>
             <field name="arch" type="xml">
-                <form string="Expenses" js_class="hr_expense_form_view">
+                <form string="Expenses" js_class="hr_expense_form_view"> 
                 <header>
                     <!-- Without attachments the attach_document comes first-->
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight o_expense_submit_highlight"
@@ -168,7 +170,7 @@
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>
-                            <field name="name" placeholder="e.g. Lunch with Customer" readonly="not is_editable"/>
+                            <field name="name" placeholder="e.g. Lunch with Customers" readonly="not is_editable" class="border border-dark " />
                         </h1>
                     </div>
                     <group>
@@ -541,9 +543,7 @@
             <field name="help" type="html">
                 <div class="o_view_nocontent_expense_receipt o_view_pink_overlay">
                     <p class="o_view_nocontent_expense_receipt_image"/>
-                    <h2 class="d-md-block">
-                        Upload or drop an expense receipt
-                    </h2>
+                    
                 </div>
             </field>
         </record>

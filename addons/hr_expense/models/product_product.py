@@ -6,7 +6,7 @@ class ProductProduct(models.Model):
 
     standard_price_update_warning = fields.Char(compute="_compute_standard_price_update_warning")
 
-    @api.onchange('standard_price')
+    @api.onchange('standard_price') 
     def _compute_standard_price_update_warning(self):
         undone_expenses = self.env['hr.expense']._read_group(
             domain=[('state', '=', 'draft'), ('product_id', 'in', self.ids)],

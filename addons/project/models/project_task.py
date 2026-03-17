@@ -300,7 +300,7 @@ class ProjectTask(models.Model):
     recurrence_id = fields.Many2one('project.task.recurrence', copy=False, index='btree_not_null')
     repeat_interval = fields.Integer(string='Repeat Every', default=1, compute='_compute_repeat', compute_sudo=True, readonly=False)
     repeat_unit = fields.Selection([
-        ('day', 'Days'),
+        ('day', 'Days'), 
         ('week', 'Weeks'),
         ('month', 'Months'),
         ('year', 'Years'),
