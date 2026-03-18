@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_sale_order_form_inherit_repair" model="ir.ui.view">
+    <field name="name">sale.order.form.repair</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+
+        <xpath expr="//header" position="inside">
+            <button name="action_create_repair_batch"
+                    type="object"
+                    string="Send to Repair"
+                    class="btn-primary"/>
+        </xpath>
+
+    </field>
+</record>
+</odoo>

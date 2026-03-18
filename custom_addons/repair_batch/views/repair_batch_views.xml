@@ -1,0 +1,114 @@
+<odoo>
+
+    <!-- ================= ACTION ================= -->
+    <record id="action_repair_batch" model="ir.actions.act_window">
+        <field name="name">Repair Batches</field>
+        <field name="res_model">repair.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= MENU ================= -->
+    <menuitem id="menu_repair_root"
+        name="Repair Management"
+        sequence="10" />
+
+    <menuitem id="menu_repair_batch"
+        name="Repair Batches"
+        parent="menu_repair_root"
+        action="action_repair_batch"
+        sequence="1" />
+
+    <!-- ================= LIST VIEW ================= -->
+    <record id="view_repair_batch_list" model="ir.ui.view">
+        <field name="name">repair.batch.list</field>
+        <field name="model">repair.batch</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="state" />
+                <field name="received" />
+            </list>
+        </field>
+    </record>
+
+    <!-- ================= MAIN FORM ================= -->
+    <record id="view_repair_batch_form" model="ir.ui.view">
+        <field name="name">repair.batch.form</field>
+        <field name="model">repair.batch</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_receive" type="object" string="Receive"
+                        invisible="state != 'draft'" />
+
+                    <button name="action_start_repair" type="object" string="Start Repair"
+                        invisible="state != 'ready'" />
+
+                    <button name="action_done" type="object" string="Mark Done"
+                        invisible="state != 'in_progress'" />
+
+                    <field name="state" widget="statusbar" />
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="partner_id" />
+                        <field name="received" />
+                    </group>
+
+                    <notebook>
+                        <page string="Trolleys">
+
+                            <!-- 🔥 TROLLEY LIST (CLICKABLE) -->
+                            <field name="trolley_ids"
+                                context="{'form_view_ref': 'repair_batch.view_repair_trolley_form'}">
+
+                                <list editable="bottom">
+                                    <field name="is_done"
+                                        class="border border-dark bg-dark text-white" />
+                                    <field name="name" />
+                                    <button name="open_trolley"
+                                        type="object"   
+                                        string="Open"
+                                        class="btn-primary" />
+                                </list>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ================= TROLLEY FORM ================= -->
+    <record id="view_repair_trolley_form" model="ir.ui.view">
+        <field name="name">repair.trolley.form</field>
+        <field name="model">repair.trolley</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="batch_id" invisible="1" />
+                    </group>
+
+                    <!-- 🔥 WORK LINES -->
+                    <field name="work_line_ids">
+                        <list editable="bottom">
+                            <field name="is_done" class="bg-dark text-white" />
+                            <field name="name" />
+                            <field name="state" />
+                        </list>
+                    </field>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
