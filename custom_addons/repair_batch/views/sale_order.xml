@@ -1,12 +1,17 @@
 <odoo>
+   
     <record id="view_sale_order_form_inherit_repair" model="ir.ui.view">
     <field name="name">sale.order.form.repair</field>
     <field name="model">sale.order</field>
     <field name="inherit_id" ref="sale.view_order_form"/>
     <field name="arch" type="xml">
-
+         <button name="action_open_repair_batches"
+        type="object" class="oe_stat_button"
+        icons="fa-wrench">
+        <field name="repair_batch_ids" widget="statinfo" string="Repairs" />
+        </button>
         <xpath expr="//header" position="inside">
-            <button name="action_create_repair_batch"
+            <button name="action_create_repair_batch" 
                     type="object"
                     string="Send to Repair"
                     class="btn-primary"/>

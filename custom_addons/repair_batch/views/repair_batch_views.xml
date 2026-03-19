@@ -37,8 +37,10 @@
         <field name="name">repair.batch.form</field>
         <field name="model">repair.batch</field>
         <field name="arch" type="xml">
+
             <form>
                 <header>
+
                     <button name="action_receive" type="object" string="Receive"
                         invisible="state != 'draft'" />
 
@@ -52,7 +54,21 @@
                 </header>
 
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button name="action_open_sale_order"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-shopping-cart"
+                            >
+
+                            <field name="sale_id" widget="statinfo" string="Quotation" />
+
+                        </button>
+
+                    </div>
                     <group>
+                        <field name="sale_id" />
                         <field name="name" />
                         <field name="partner_id" />
                         <field name="received" />
@@ -61,16 +77,18 @@
                     <notebook>
                         <page string="Trolleys">
 
-                            <!-- 🔥 TROLLEY LIST (CLICKABLE) -->
                             <field name="trolley_ids"
                                 context="{'form_view_ref': 'repair_batch.view_repair_trolley_form'}">
 
                                 <list editable="bottom">
-                                    <field name="is_done"
-                                        class="border border-dark bg-dark text-white" />
+                                    <!-- ❌ REMOVED is_done -->
+                                    <field name="is_done" />
                                     <field name="name" />
+                                    <field name="employee_id" />
+                                    <field name="state" />
+
                                     <button name="open_trolley"
-                                        type="object"   
+                                        type="object"
                                         string="Open"
                                         class="btn-primary" />
                                 </list>
@@ -93,8 +111,10 @@
             <form>
                 <sheet>
                     <group>
+
                         <field name="name" />
                         <field name="batch_id" invisible="1" />
+                        <field name="state" readonly="1" />
                     </group>
 
                     <!-- 🔥 WORK LINES -->
@@ -102,7 +122,7 @@
                         <list editable="bottom">
                             <field name="is_done" class="bg-dark text-white" />
                             <field name="name" />
-                            <field name="state" />
+                            <field name="state" readonly="1" />
                         </list>
                     </field>
 
