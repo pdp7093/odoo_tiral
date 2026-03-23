@@ -23,7 +23,20 @@ class RepairBatch(models.Model):
     received = fields.Boolean(default=False)
     product_id = fields.Many2one("product.product", string="Product")
     quantity = fields.Float(default=1)
+
     trolley_ids = fields.One2many("repair.trolley", "batch_id", string="Trolleys")
+
+    source_location_id = fields.Many2one(
+        "stock.location",
+        default=lambda self: self.env.ref("stock.stock_location_stock"),
+    )
+
+    consumption_location_id = fields.Many2one(
+        "stock.location",
+        default=lambda self: self.env["stock.location"].search(
+            [("name", "=", "Repair Consumption")], limit=1
+        ),
+    )
 
     @api.model
     def create(self, vals_list):
@@ -31,14 +44,12 @@ class RepairBatch(models.Model):
             if not vals.get("sale_id") and self.env.context.get("default_sale_id"):
                 vals["sale_id"] = self.env.context.get("default_sale_id")
 
-        print("🔥 CREATE CALLED:", vals_list)
-        # return super().create(vals_list)
-
         return super().create(vals_list)
 
     _sql_constraints = [("unique_sale", "unique(sale_id)", "Repair already exists!")]
 
-    # Buttons
+    # ---------------- BUTTONS ---------------- #
+
     def action_receive(self):
         for rec in self:
             rec.received = True
@@ -58,36 +69,63 @@ class RepairBatch(models.Model):
     def action_start_repair(self):
         for rec in self:
             if not rec.received:
-                raise Exception("Trolley not received yet!")
+                raise ValidationError("Trolley not received yet!")
             rec.state = "in_progress"
 
+    
+    # 🔥 FINAL FIXED METHOD
     def action_done(self):
-        for rec in self:
-            for trolley in rec.trolley_ids:
+        for batch in self:
+
+            picking_type = self.env['stock.picking.type'].search([
+                ('code', '=', 'internal')
+            ], limit=1)
+
+            picking = self.env['stock.picking'].create({
+                'picking_type_id': picking_type.id,
+                'location_id': batch.source_location_id.id,
+                'location_dest_id': batch.consumption_location_id.id,
+                'origin': batch.name,
+            })
+
+            moves = self.env['stock.move']
+
+            for trolley in batch.trolley_ids:
                 for line in trolley.work_line_ids:
 
-                    product = line.product_id
-                    qty = line.quantity or 1  # 🔥 fallback
-
-                    if not product:
+                    if not line.product_id or line.quantity <= 0:
                         continue
 
-                    # 🔥 stock check
-                    if product.qty_available < qty:
-                        raise ValidationError(f"Not enough stock for {product.name}")
+                    move = self.env['stock.move'].create({
+                        'name': line.product_id.display_name,
+                        'product_id': line.product_id.id,
+                        'product_uom_qty': line.quantity,
+                        'product_uom': line.product_id.uom_id.id,
+                        'location_id': batch.source_location_id.id,
+                        'location_dest_id': batch.consumption_location_id.id,
+                        'picking_id': picking.id,
+                    })
 
-                    # 🔥 get location (simple version)
-                    location = self.env.ref("stock.stock_location_stock")
+                    moves |= move
 
-                    # 🔥 reduce stock
-                    self.env["stock.quant"]._update_available_quantity(
-                        product, location, -qty
-                    )
+            if not moves:
+                raise ValidationError("No valid products to consume!")
 
-            rec.state = "done"
+            # 🔥 IMPORTANT FLOW
+            moves._action_confirm()
+            moves._action_assign()
 
+            # 🔥 SET qty_done
+            for move in moves:
+                move.quantity_done = move.product_uom_qty 
 
-# NEW MODEL (Trolley)
+            # 🔥 FINAL
+            picking._action_done()
+
+            batch.state = 'done'
+
+# ---------------- TROLLEY ---------------- #
+
 class RepairTrolley(models.Model):
     _name = "repair.trolley"
     _description = "Repair Trolley"
@@ -98,8 +136,9 @@ class RepairTrolley(models.Model):
     work_line_ids = fields.One2many(
         "repair.work.line", "trolley_id", string="Work Lines"
     )
+
     is_done = fields.Boolean(string="Done")
-    # sale_id = fields.Many2one("sale.order", string="Sale Order")
+
     state = fields.Selection(
         [("pending", "Pending"), ("in_progress", "In Progress"), ("done", "Done")],
         compute="_compute_state",
@@ -129,14 +168,10 @@ class RepairTrolley(models.Model):
 
         if "is_done" in vals:
             for rec in self:
-                if rec.is_done:
-                    rec.work_line_ids.write({"is_done": True})
-                else:
-                    rec.work_line_ids.write({"is_done": False})
+                rec.work_line_ids.write({"is_done": rec.is_done})
 
         return res
 
-    # ✅ CLEAN COMPUTE (single source of truth)
     @api.depends("work_line_ids.is_done")
     def _compute_state(self):
         for rec in self:
@@ -148,14 +183,15 @@ class RepairTrolley(models.Model):
                 rec.state = "in_progress"
 
 
-#  NEW MODEL (Work Lines)
+# ---------------- WORK LINE ---------------- #
+
 class RepairWorkLine(models.Model):
     _name = "repair.work.line"
     _description = "Repair Work Line"
 
     trolley_id = fields.Many2one("repair.trolley")
-    product_id = fields.Many2one("product.product", string="Product")  # ✅ ADD
-    quantity = fields.Float(default=1)
+    product_id = fields.Many2one("product.product",string="Product",required=True)
+    quantity = fields.Float(default=1,required=True)
     name = fields.Char(string="Work")
 
     is_done = fields.Boolean(string="Done")
@@ -173,3 +209,8 @@ class RepairWorkLine(models.Model):
     def _compute_state(self):
         for rec in self:
             rec.state = "done" if rec.is_done else "pending"
+    @api.constrains('quantity')
+    def _check_quantity(self):
+        for rec in self:
+            if rec.quantity <= 0:
+                raise ValidationError("Quantity must be greater than 0!")

@@ -1,0 +1,33 @@
+<odoo>
+
+    <record id="view_partner_followup_list" model="ir.ui.view">
+        <field name="name">res.partner.followup.list</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list create="false" editable="bottom">
+                <field name="name" />
+                <field name="followup_date" />
+                <field name="is_followup_done" />
+            </list>
+        </field>
+    </record>
+
+
+    <record id="action_followup_partners" model="ir.actions.act_window">
+        <field name="name">Follow-ups</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_partner_followup_list" />  <!-- IMPORTANT -->
+        <field name="context">{'search_default_order': 'followup_date asc'}</field>
+        <field name="domain">
+            [('followup_date','!=',False),
+            
+        </field>
+    </record>
+
+    <menuitem id="menu_followup_root" name="Follow-ups" sequence="10" />
+
+    <menuitem id="menu_followup_partners" name="All Follow-ups" parent="menu_followup_root"
+        action="action_followup_partners" />
+
+</odoo>
