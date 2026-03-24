@@ -38,6 +38,12 @@ class RepairBatch(models.Model):
         ),
     )
 
+    consumption_picking_id = fields.Many2one(
+        "stock.picking",
+        string="Repair Consumption Picking",
+        readonly=True,
+    )
+
     @api.model
     def create(self, vals_list):
         for vals in vals_list:
@@ -66,64 +72,96 @@ class RepairBatch(models.Model):
             "target": "current",
         }
 
-    def action_start_repair(self):
-        for rec in self:
-            if not rec.received:
-                raise ValidationError("Trolley not received yet!")
-            rec.state = "in_progress"
+    def _collect_work_lines(self, batch):
+        """Return repair work lines to consume for this batch."""
+        moves = self.env['stock.move']
+        for trolley in batch.trolley_ids:
+            done_lines = trolley.work_line_ids.filtered(lambda l: l.is_done)
+            work_lines = done_lines if done_lines else trolley.work_line_ids
+            for line in work_lines:
+                if not line.product_id and line.name:
+                    product = self.env['product.product'].search([('name', 'ilike', line.name)], limit=1)
+                    if product:
+                        line.product_id = product
+                if not line.product_id and batch.sale_id and batch.sale_id.order_line:
+                    line.product_id = batch.sale_id.order_line[0].product_id
+                if not line.product_id or line.quantity <= 0:
+                    continue
+                move = self.env['stock.move'].create({
+                    'product_id': line.product_id.id,
+                    'product_uom_qty': line.quantity,
+                    'product_uom': line.product_id.uom_id.id,
+                    'location_id': batch.source_location_id.id,
+                    'location_dest_id': batch.consumption_location_id.id,
+                    # picking_id set later once picking exists
+                })
+                moves |= move
+        return moves
 
-    
+    def _create_repair_picking(self, batch):
+        picking_type = self.env['stock.picking.type'].search([('code', '=', 'internal')], limit=1)
+        if not picking_type:
+            raise ValidationError("Internal picking type not configured.")
+        picking = self.env['stock.picking'].create({
+            'picking_type_id': picking_type.id,
+            'location_id': batch.source_location_id.id,
+            'location_dest_id': batch.consumption_location_id.id,
+            'origin': batch.name,
+        })
+        return picking
+
+    def action_start_repair(self):
+        for batch in self:
+            if not batch.received:
+                raise ValidationError("Trolley not received yet!")
+
+            # 🔥 USE SALE PICKING ONLY
+            picking = batch.sale_id.picking_ids.filtered(
+                lambda p: p.state not in ('done', 'cancel')
+            )
+
+            if not picking:
+                raise ValidationError("No delivery picking found for this sale order.")
+
+            picking = picking[0]
+
+            # Reserve stock
+            picking.action_assign()
+
+            batch.consumption_picking_id = picking
+            batch.state = 'in_progress'
+
     # 🔥 FINAL FIXED METHOD
     def action_done(self):
         for batch in self:
+            batch.ensure_one()
 
-            picking_type = self.env['stock.picking.type'].search([
-                ('code', '=', 'internal')
-            ], limit=1)
+            if not batch.trolley_ids:
+                raise ValidationError("No trolley found for this batch.")
 
-            picking = self.env['stock.picking'].create({
-                'picking_type_id': picking_type.id,
-                'location_id': batch.source_location_id.id,
-                'location_dest_id': batch.consumption_location_id.id,
-                'origin': batch.name,
-            })
+            if any(trolley.state != 'done' for trolley in batch.trolley_ids):
+                raise ValidationError("All trolleys must be done before closing the batch.")
 
-            moves = self.env['stock.move']
+            picking = batch.consumption_picking_id
 
-            for trolley in batch.trolley_ids:
-                for line in trolley.work_line_ids:
+            if not picking:
+                raise ValidationError("No picking found. Start repair first.")
 
-                    if not line.product_id or line.quantity <= 0:
-                        continue
+            # Assign (reserve)
+            picking.action_assign()
 
-                    move = self.env['stock.move'].create({
-                        'name': line.product_id.display_name,
-                        'product_id': line.product_id.id,
-                        'product_uom_qty': line.quantity,
-                        'product_uom': line.product_id.uom_id.id,
-                        'location_id': batch.source_location_id.id,
-                        'location_dest_id': batch.consumption_location_id.id,
-                        'picking_id': picking.id,
-                    })
+            # 🔥 MOST IMPORTANT LINE (YOU WERE MISSING THIS)
+            for move_line in picking.move_line_ids:
+                if move_line.quantity > 0:
+                    move_line.qty_done = move_line.quantity
 
-                    moves |= move
+            # Optional UI
+            picking.move_line_ids.write({'picked': True})
 
-            if not moves:
-                raise ValidationError("No valid products to consume!")
-
-            # 🔥 IMPORTANT FLOW
-            moves._action_confirm()
-            moves._action_assign()
-
-            # 🔥 SET qty_done
-            for move in moves:
-                move.quantity_done = move.product_uom_qty 
-
-            # 🔥 FINAL
+            # 🔥 FINAL STEP
             picking._action_done()
 
             batch.state = 'done'
-
 # ---------------- TROLLEY ---------------- #
 
 class RepairTrolley(models.Model):
@@ -190,8 +228,8 @@ class RepairWorkLine(models.Model):
     _description = "Repair Work Line"
 
     trolley_id = fields.Many2one("repair.trolley")
-    product_id = fields.Many2one("product.product",string="Product",required=True)
-    quantity = fields.Float(default=1,required=True)
+    product_id = fields.Many2one("product.product", string="Product", required=True)
+    quantity = fields.Float(default=1, required=True)
     name = fields.Char(string="Work")
 
     is_done = fields.Boolean(string="Done")
@@ -204,6 +242,45 @@ class RepairWorkLine(models.Model):
         compute="_compute_state",
         store=True,
     )
+
+    @api.model
+    def default_get(self, fields):
+        res = super().default_get(fields)
+        if not res.get("product_id") and res.get("trolley_id"):
+            trolley = self.env["repair.trolley"].browse(res["trolley_id"])
+            sale = trolley.batch_id.sale_id
+            if sale and sale.order_line:
+                res["product_id"] = sale.order_line[0].product_id.id
+        return res
+
+    @api.onchange("name")
+    def _onchange_name(self):
+        if self.name and not self.product_id:
+            product = self.env["product.product"].search([("name", "ilike", self.name)], limit=1)
+            if product:
+                self.product_id = product
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("product_id") and vals.get("name"):
+                product = self.env["product.product"].search([("name", "ilike", vals.get("name"))], limit=1)
+                if product:
+                    vals["product_id"] = product.id
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if not vals.get("product_id") and vals.get("name"):
+            product = self.env["product.product"].search([("name", "ilike", vals.get("name"))], limit=1)
+            if product:
+                vals["product_id"] = product.id
+        return super().write(vals)
+
+    @api.constrains("product_id")
+    def _check_product(self):
+        for rec in self:
+            if not rec.product_id:
+                raise ValidationError("Please select a product for each work line.")
 
     @api.depends("is_done")
     def _compute_state(self):

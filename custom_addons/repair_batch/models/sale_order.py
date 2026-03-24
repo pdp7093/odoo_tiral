@@ -6,6 +6,7 @@ class SaleOrder(models.Model):
     repair_batch_ids = fields.One2many(
         "repair.batch", "sale_id", string="Repair Batches"
     )
+    is_repair_order = fields.Boolean(string="Repair Order", default=False)
 
     def action_open_repair_batches(self):
         self.ensure_one()
@@ -28,7 +29,6 @@ class SaleOrder(models.Model):
                 continue  # ❌ duplicate avoid
 
             current_trolley = None
-            print("🔥 SALE_ID SENT:", order.id)
             repair = self.env["repair.batch"].create(
                 {
                     "partner_id": order.partner_id.id,
@@ -37,15 +37,12 @@ class SaleOrder(models.Model):
                 }
             )
 
-            print("REPAIR CREATED:", repair.sale_id.id)
-
             for line in order.order_line:
                 if line.display_type == "line_section":
                     current_trolley = self.env["repair.trolley"].create(
                         {
                             "name": line.name,
                             "batch_id": repair.id,
-                           
                         }
                     )
                 else:
@@ -56,5 +53,7 @@ class SaleOrder(models.Model):
                                 "name": line.name,
                             }
                         )
+
+            order.is_repair_order = True
 
         return res

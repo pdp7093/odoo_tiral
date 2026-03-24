@@ -1,33 +1,77 @@
 <odoo>
+    <data>
 
-    <record id="view_partner_followup_list" model="ir.ui.view">
-        <field name="name">res.partner.followup.list</field>
-        <field name="model">res.partner</field>
-        <field name="arch" type="xml">
-            <list create="false" editable="bottom">
-                <field name="name" />
-                <field name="followup_date" />
-                <field name="is_followup_done" />
-            </list>
-        </field>
-    </record>
+        <!-- 🔹 ALL FOLLOWUPS LIST -->
+        <record id="view_partner_followup_list" model="ir.ui.view">
+            <field name="name">res.partner.followup.list</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+
+                <list editable="bottom" default_order="followup_date asc, name asc">
+                    <header>
+                        <button string="Total: 3" type="object" />
+                        <button string="Done: 1" type="object" />
+                        <button string="Pending: 2" type="object" />
+                    </header>
+                    <field name="name" />
+                    <field name="followup_date" />
+                    <field name="is_followup_done" />
+                </list>
+
+            </field>
+        </record>
 
 
-    <record id="action_followup_partners" model="ir.actions.act_window">
-        <field name="name">Follow-ups</field>
-        <field name="res_model">res.partner</field>
-        <field name="view_mode">list,form</field>
-        <field name="view_id" ref="view_partner_followup_list" />  <!-- IMPORTANT -->
-        <field name="context">{'search_default_order': 'followup_date asc'}</field>
-        <field name="domain">
-            [('followup_date','!=',False),
-            
-        </field>
-    </record>
+        <!-- 🔹 TODAY FOLLOWUPS LIST -->
+        <record id="view_today_followups" model="ir.ui.view">
+            <field name="name">res.partner.followup.today</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
 
-    <menuitem id="menu_followup_root" name="Follow-ups" sequence="10" />
+                <list editable="bottom">
+                    <field name="name" />
+                    <field name="followup_date" />
+                    <field name="followup_note" optional="show" />
+                    <field name="is_followup_done" />
+                </list>
 
-    <menuitem id="menu_followup_partners" name="All Follow-ups" parent="menu_followup_root"
-        action="action_followup_partners" />
+            </field>
+        </record>
 
+
+        <!-- 🔹 ACTIONS -->
+        <record id="action_followup_partners" model="ir.actions.act_window">
+            <field name="name">All Follow-ups</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_partner_followup_list" />
+            <field name="domain">[('followup_date','!=',False)]</field>
+        </record>
+
+
+        <record id="action_today_followups" model="ir.actions.act_window">
+            <field name="name">Today's Followups</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_today_followups" />
+            <field name="domain">
+                [('followup_date','=',context_today())]
+            </field>
+        </record>
+
+
+        <!-- 🔹 MENUS -->
+        <menuitem id="menu_followup_root" name="Follow-ups" sequence="10" />
+
+        <menuitem id="menu_followup_partners"
+            name="All Follow-ups"
+            parent="menu_followup_root"
+            action="action_followup_partners" />
+
+        <menuitem id="menu_today_followups"
+            name="Today's Followups"
+            parent="menu_followup_root"
+            action="action_today_followups" />
+
+    </data>
 </odoo>
