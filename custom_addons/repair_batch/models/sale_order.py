@@ -3,10 +3,20 @@ from odoo import models, fields
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    is_repair_order = fields.Boolean("Is Repair Order")
+
     repair_batch_ids = fields.One2many(
         "repair.batch", "sale_id", string="Repair Batches"
     )
-    is_repair_order = fields.Boolean(string="Repair Order", default=False)
+
+    repair_count = fields.Integer(compute="_compute_repair_count")
+
+    def _compute_repair_count(self):
+        for rec in self:
+            rec.repair_count = self.env['repair.batch'].search_count([
+                ('sale_id', '=', rec.id)
+            ])
 
     def action_open_repair_batches(self):
         self.ensure_one()
@@ -16,44 +26,26 @@ class SaleOrder(models.Model):
             "res_model": "repair.batch",
             "view_mode": "list,form",
             "domain": [("sale_id", "=", self.id)],
-            "context": {"default_sale_id": self.id},
         }
 
     def action_confirm(self):
         res = super().action_confirm()
 
         for order in self:
-            # 🔥 CHECK if already exists
-            existing = self.env["repair.batch"].search([("sale_id", "=", order.id)])
-            if existing:
-                continue  # ❌ duplicate avoid
+            if not order.is_repair_order:
+                continue
 
-            current_trolley = None
-            repair = self.env["repair.batch"].create(
-                {
-                    "partner_id": order.partner_id.id,
-                    "sale_id": order.id,
-                    "name": order.name,
-                }
+            # 🔥 create repair batch
+            existing = self.env["repair.batch"].search(
+                [("sale_id", "=", order.id)], limit=1
             )
 
-            for line in order.order_line:
-                if line.display_type == "line_section":
-                    current_trolley = self.env["repair.trolley"].create(
-                        {
-                            "name": line.name,
-                            "batch_id": repair.id,
-                        }
-                    )
-                else:
-                    if current_trolley:
-                        self.env["repair.work.line"].create(
-                            {
-                                "trolley_id": current_trolley.id,
-                                "name": line.name,
-                            }
-                        )
-
-            order.is_repair_order = True
+            if not existing:
+                self.env["repair.batch"].create({
+                    "name": order.name,
+                    "partner_id": order.partner_id.id,
+                    "sale_id": order.id,
+                })
 
         return res
+    

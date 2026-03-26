@@ -10,13 +10,13 @@
     <!-- ================= MENU ================= -->
     <menuitem id="menu_repair_root"
         name="Repair Management"
-        sequence="10" />
+        sequence="10"/>
 
     <menuitem id="menu_repair_batch"
         name="Repair Batches"
         parent="menu_repair_root"
         action="action_repair_batch"
-        sequence="1" />
+        sequence="1"/>
 
     <!-- ================= LIST VIEW ================= -->
     <record id="view_repair_batch_list" model="ir.ui.view">
@@ -24,10 +24,10 @@
         <field name="model">repair.batch</field>
         <field name="arch" type="xml">
             <list>
-                <field name="name" />
-                <field name="partner_id" />
-                <field name="state" />
-                <field name="received" />
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+                <field name="received"/>
             </list>
         </field>
     </record>
@@ -41,65 +41,59 @@
             <form>
                 <header>
 
-                    <button name="action_receive" type="object" string="Receive"
-                        invisible="state != 'draft'" />
+                    <button name="action_receive"
+                        type="object"
+                        string="Receive"
+                        invisible="state != 'draft'"/>
 
-                    <button name="action_start_repair" type="object" string="Start Repair"
-                        invisible="state != 'ready'" />
+                    <button name="action_start_repair"
+                        type="object"
+                        string="Start Repair"
+                        invisible="state != 'ready'"/>
 
-                    <button name="action_done" type="object" string="Mark Done"
-                        invisible="state != 'in_progress'" />
+                    <button name="action_done"
+                        type="object"
+                        string="Mark Done"
+                        invisible="state != 'in_progress'"/>
 
-                    <field name="state" widget="statusbar" />
+                    <field name="state" widget="statusbar"/>
                 </header>
 
                 <sheet>
-                    <div class="oe_button_box" name="button_box">
 
-                        <button name="action_open_sale_order"
-                            type="object"
-                            class="oe_stat_button"
-                            icon="fa-shopping-cart"
-                            >
+                    
 
-                            <field name="sale_id" widget="statinfo" string="Quotation" />
-
-                        </button>
-
-                    </div>
                     <group>
-                        <field name="sale_id" />
-                        <field name="name" />
-                        <field name="partner_id" />
-                        <field name="received" />
+                        <field name="sale_id"/>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="received"/>
                     </group>
 
                     <notebook>
+
+                        <!-- ================= TROLLEYS ================= -->
                         <page string="Trolleys">
 
                             <field name="trolley_ids"
                                 context="{'form_view_ref': 'repair_batch.view_repair_trolley_form'}">
 
-                                <list editable="bottom">
-                                    <!-- ❌ REMOVED is_done -->
-                                    <field name="is_done" />
-                                    <field name="name" />
-                                    <field name="employee_id" />
-                                    <field name="state" />
-
-                                    <button name="open_trolley"
-                                        type="object"
-                                        string="Open"
-                                        class="btn-primary" />
+                                <list editable="bottom" open_form_view="1" create="true" delete="true">
+                                    <field name="is_done" widget="boolean_toggle"/>
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="state"/>
                                 </list>
 
                             </field>
 
                         </page>
+
                     </notebook>
 
                 </sheet>
             </form>
+
         </field>
     </record>
 
@@ -108,28 +102,31 @@
         <field name="name">repair.trolley.form</field>
         <field name="model">repair.trolley</field>
         <field name="arch" type="xml">
+
             <form>
                 <sheet>
-                    <group>
 
-                        <field name="name" />
-                        <field name="batch_id" invisible="1" />
-                        <field name="state" readonly="1" />
+                    <group>
+                        <field name="name"/>
+                        <field name="batch_id" invisible="1"/>
+                        <field name="state" readonly="1"/>
                     </group>
 
-                    <!-- 🔥 WORK LINES -->
+                    <!-- ================= WORK LINES ================= -->
                     <field name="work_line_ids">
+
+                        <!-- editable allowed here -->
                         <list editable="bottom">
-                            <field name="is_done" class="bg-dark text-white" />
-                            <field name="product_id" />
-                            <field name="quantity" />
-                            <field name="name" />
-                            <field name="state" readonly="1" />
+                            <field name="is_done"/>
+                            <field name="product_id"/>
+                            <field name="quantity"/>
                         </list>
+
                     </field>
 
                 </sheet>
             </form>
+
         </field>
     </record>
 

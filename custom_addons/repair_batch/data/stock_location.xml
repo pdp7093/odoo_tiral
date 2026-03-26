@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <!-- Create Repair Consumption location -->
+        <record id="stock_location_repair_consumption" model="stock.location">
+            <field name="name">Repair Consumption</field>
+            <field name="usage">internal</field>
+        </record>
+    </data>
+</odoo>
