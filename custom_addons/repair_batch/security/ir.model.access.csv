@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_repair_batch,repair.batch,model_repair_batch,base.group_user,1,1,1,1
 access_repair_trolley,repair.trolley,model_repair_trolley,base.group_user,1,1,1,1
 access_repair_work_line,repair.work.line,model_repair_work_line,base.group_user,1,1,1,1
+access_profit_sale_order,profit.sale.order,model_sale_order,repair_batch.group_repair_head,1,0,0,0

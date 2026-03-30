@@ -1,0 +1,15 @@
+<odoo>
+    
+
+    <record id="action_approval_rules" model="ir.actions.act_window" >
+        <field name="name">Approval Rules</field>
+        <field name="res_model">approval.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="menu_approval_root" name="Approval Engine" />
+
+    <menuitem id="menu_approval_rules" name="Approval Rules" 
+    parent="menu_approval_root" action="action_approval_rules" />
+</odoo>

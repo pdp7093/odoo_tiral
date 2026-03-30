@@ -1,6 +1,6 @@
 <odoo>
 
-    <record id="view_sale_order_form_inherit_repair" model="ir.ui.view">
+    <record id="view_sale_order_form_inherit_repair_batch" model="ir.ui.view">
         <field name="name">sale.order.form.repair</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
@@ -16,12 +16,24 @@
                 <button name="action_open_repair_batches"
                         type="object"
                         class="oe_stat_button"
-                        icon="fa-wrench">
+                        icon="fa-wrench"
+                        invisible="not is_repair_order or repair_batch_count == 0">
 
-                    <field name="repair_count" widget="statinfo" string="Repairs"/>
+                    <field name="repair_batch_count" widget="statinfo" string="Repair Batches"/>
                 </button>
             </xpath>
 
+        </field>
+    </record>
+
+    <record id="view_sale_order_form_hide_standard_repair_button" model="ir.ui.view">
+        <field name="name">sale.order.form.hide.standard.repair.button</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="repair.view_sale_order_form_inherit_repair"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_show_repair']" position="attributes">
+                <attribute name="invisible">is_repair_order or repair_count == 0</attribute>
+            </xpath>
         </field>
     </record>
 
